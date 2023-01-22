@@ -29,6 +29,29 @@ def getCommand(print_text):
     command = command.lower()
     return command
 
+def menu():
+    #starting menu sequence
+    while 1:
+        print("\n-----------------SCOPA-----------------")
+        print("Welcome!")
+        cmd = getCommand("What would you like to do? [ start | rules | quit ]")
+        if cmd == "start":
+            cmd = getCommand("How many players? [ one player | two player ]")
+            if cmd == "one player" or cmd == "one" or cmd == '1':
+                return False
+            elif cmd == "two player" or cmd == "two" or cmd == '2':
+                return True
+            else:
+                badInput()
+        elif cmd == "rules":
+            helpText()
+        elif cmd == "quit":
+            quit()
+        else:
+            badInput()
+        os.system("cls")
+    print("\n---------------------------------------\n")
+
 def rulesText():
     print("\n------------------RULES------------------")
     print("Scopa is an Italian game, so it is played with a 40-card deck with cards valuing from 1 to 10. The suits are Cups, Coins, Swords, and Clubs.")
@@ -345,6 +368,7 @@ def placeCard(p_hand: list[Card], table: list[Card]):
             return True
 
 def processList(nums: list):
+    #converts list of strings to int
     for i in range(len(nums)):
         try:
             nums[i] = int(nums[i]) - 1
@@ -429,29 +453,6 @@ def action(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: list[
 def computerAction(p_score: Score, p_hand: list[Card], table: list[Card]):
     #code goes here
     pass
-
-def menu():
-    #starting menu sequence
-    while 1:
-        print("\n-----------------SCOPA-----------------")
-        print("Welcome!")
-        cmd = getCommand("What would you like to do? [ start | rules | quit ]")
-        if cmd == "start":
-            cmd = getCommand("How many players? [ one player | two player ]")
-            if cmd == "one player" or cmd == "one" or cmd == '1':
-                return False
-            elif cmd == "two player" or cmd == "two" or cmd == '2':
-                return True
-            else:
-                badInput()
-        elif cmd == "rules":
-            helpText()
-        elif cmd == "quit":
-            quit()
-        else:
-            badInput()
-        os.system("cls")
-    print("\n---------------------------------------\n")
     
 def main():
     two_player = menu()

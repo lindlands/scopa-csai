@@ -253,21 +253,21 @@ def printScore(p_score):
     time.sleep(.7)
     print("\n")
 
-def addScore(p1_field, p2_field, p1, p2):
+def addScore(p1_field, p2_field, tally):
     #compares and adds a point to p1 or p2
     if p1_field > p2_field:
-        p1+=1
-    elif p1_field > p2_field:
-        p2+=1
+        tally[0] += 1
+    elif p1_field < p2_field:
+        tally[1] += 1
 
-def addAllScores(p1_score, p2_score, p1, p2):
-    #compares and adds score up into p1/p2
-    addScore(p1_score.primeTotal, p2_score.primeTotal, p1, p2)
-    addScore(p1_score.numCoins, p2_score.numCoins, p1, p2)
-    addScore(p1_score.numCards, p2_score.numCards, p1, p2)
-    addScore(p1_score.sevenCoins, p2_score.sevenCoins, p1, p2)
-    p1 += p1_score.scopa
-    p2 += p2_score.scopa
+def addAllScores(p1_score, p2_score, tally):
+    #compares and adds score up into tally
+    addScore(p1_score.primeTotal, p2_score.primeTotal, tally)
+    addScore(p1_score.numCoins, p2_score.numCoins, tally)
+    addScore(p1_score.numCards, p2_score.numCards, tally)
+    addScore(p1_score.sevenCoins, p2_score.sevenCoins, tally)
+    tally[0] += p1_score.scopa
+    tally[1] += p2_score.scopa
 
 def scoring(p1_score, p2_score):
     #scoring sequence
@@ -276,14 +276,13 @@ def scoring(p1_score, p2_score):
     printScore(p1_score)
     print("PLAYER 2: ")
     printScore(p2_score)
-    p1 = 0
-    p2 = 0
-    addAllScores(p1_score, p2_score, p1, p2)
-    print("PLAYER 1 total: " + str(p1))
-    print("PLAYER 2 total: " + str(p2) + "\n")
-    if p1 > p2:
+    tally = [0,0]
+    addAllScores(p1_score, p2_score, tally)
+    print("PLAYER 1 total: " + str(tally[0]))
+    print("PLAYER 2 total: " + str(tally[1]) + "\n")
+    if tally[0] > tally[1]:
         print("PLAYER 1 wins!")
-    elif p2 > p1:
+    elif tally[1] > tally[0]:
         print("PLAYER 2 wins!")
     else:
         print("PLAYER 1 and PLAYER 2 are tied!")
@@ -515,14 +514,8 @@ def main():
     for i in range(0, 4):
         #deals cards to the table
         table.append(deck.pop())
-    i = 0
     while (1):
         #main part of the game
-        if i == 3:
-            scoreDeck(p2_score, table)
-            break
-        else:
-            i+=1
         if len(p1_hand) == 0 and len(p2_hand) == 0:
             dealCards(deck, p1_hand, p2_hand)
             if len(p1_hand) == 0 and len(p2_hand) == 0:

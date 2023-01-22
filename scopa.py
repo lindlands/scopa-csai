@@ -1,7 +1,6 @@
 import os
 import random
 import time
-import sys
 from enum import Enum
 
 class Suit(Enum):
@@ -171,19 +170,19 @@ def scoreCard(score, card):
     prime = 0
     score.numCards += 1
     prime = findPrimeVal(card.value)
-    if (card == Suit.CUPS):
+    if (card.suit == Suit.CUPS):
         if score.cup_prime < prime:
             score.cup_prime = prime
-    elif (card == Suit.COINS):
+    elif (card.suit == Suit.COINS):
         if card.value == 7:
             #the seven of coins
             score.sevenCoins += 1
         if score.coin_prime < prime:
             score.coin_prime = prime
-    elif (card == Suit.SWORDS):
+    elif (card.suit == Suit.SWORDS):
         if score.sword_prime < prime:
             score.sword_prime = prime
-    elif (card == Suit.CLUBS):
+    elif (card.suit == Suit.CLUBS):
         if score.club_prime < prime:
             score.club_prime = prime
 
@@ -498,7 +497,7 @@ def computerAction(c_score: Score, c_hand: list[Card], table: list[Card]):
         # take the first card in the hand and the first card on the table if:
         # 1. they match in value
         # 2. the table card is a Coins card
-        if firstTableCard == Suit.COINS and firstHandCard.value == firstTableCard.value:
+        if firstTableCard.suit == Suit.COINS and firstHandCard.value == firstTableCard.value:
             table.remove(firstHandCard)
             scoreCard(c_score, firstHandCard)
             
@@ -516,8 +515,14 @@ def main():
     for i in range(0, 4):
         #deals cards to the table
         table.append(deck.pop())
+    i = 0
     while (1):
         #main part of the game
+        if i == 3:
+            scoreDeck(p2_score, table)
+            break
+        else:
+            i+=1
         if len(p1_hand) == 0 and len(p2_hand) == 0:
             dealCards(deck, p1_hand, p2_hand)
             if len(p1_hand) == 0 and len(p2_hand) == 0:

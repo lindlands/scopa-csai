@@ -171,19 +171,19 @@ def scoreCard(score, card):
     prime = 0
     score.numCards += 1
     prime = findPrimeVal(card.value)
-    if (card.suit == " of Cups"):
+    if (card == Suit.CUPS):
         if score.cup_prime < prime:
             score.cup_prime = prime
-    elif (card.suit == " of Coins"):
+    elif (card == Suit.COINS):
         if card.value == 7:
             #the seven of coins
             score.sevenCoins += 1
         if score.coin_prime < prime:
             score.coin_prime = prime
-    elif (card.suit == " of Swords"):
+    elif (card == Suit.SWORDS):
         if score.sword_prime < prime:
             score.sword_prime = prime
-    elif (card.suit == " of Clubs"):
+    elif (card == Suit.CLUBS):
         if score.club_prime < prime:
             score.club_prime = prime
 

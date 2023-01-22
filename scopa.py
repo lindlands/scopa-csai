@@ -2,14 +2,21 @@ import os
 import random
 import time
 import sys
+from enum import Enum
+
+class Suit(Enum):
+    CUPS = " of Cups"
+    COINS = " of Coins"
+    SWORDS = " of Swords"
+    CLUBS = " of Clubs"
 
 class Card:
-    def __init__(self, value, suit):
+    def __init__(self, value: int, suit: Suit):
         self.value = value
         self.suit = suit
     
     def __str__(self): 
-        return "[" + str(self.value) + self.suit + "]"
+        return "[" + str(self.value) + str(self.suit.value) + "]"
 
 class Score(object):
     def __init__(self):
@@ -23,41 +30,41 @@ class Score(object):
         self.sword_prime = 0
         self.club_prime = 0
 
-def getCommand(print_text):
+def getUserCommand(print_text: str):
     #prints prompt and returns user input converted to lowercase
     command = input(print_text + "\n")
     command = command.lower()
     return command
 
-def menu():
+def printMenu():
     #starting menu sequence
     while 1:
         print("\n-----------------SCOPA-----------------")
         print("Welcome!")
-        cmd = getCommand("What would you like to do? [ start | rules | quit ]")
+        cmd = getUserCommand("What would you like to do? [ start | rules | quit ]")
         if cmd == "start":
-            cmd = getCommand("How many players? [ one player | two player ]")
+            cmd = getUserCommand("How many players? [ one player | two player ]")
             if cmd == "one player" or cmd == "one" or cmd == '1':
                 return False
             elif cmd == "two player" or cmd == "two" or cmd == '2':
                 return True
             else:
-                badInput()
+                printBadInput()
         elif cmd == "rules":
-            helpText()
+            runHelpMenu()
         elif cmd == "quit":
             quit()
         else:
-            badInput()
+            printBadInput()
         os.system("cls")
     print("\n---------------------------------------\n")
 
-def rulesText():
+def printRulesText():
     print("\n------------------RULES------------------")
     print("Scopa is an Italian game, so it is played with a 40-card deck with cards valuing from 1 to 10. The suits are Cups, Coins, Swords, and Clubs.")
     print("The goal of the game is to capture cards, so by the end of the game, scoring of your cards will grant you the most points.\n")
 
-def gameplayText():
+def printGameplayText():
     print("\n-----------------GAMEPLAY-----------------")
     print("Each player will be dealt 3 cards, and 4 face-up cards will be placed on the table.")
     print("You and the opponent will take turns playing one card each--either placing a card on the table or capturing cards.\n")
@@ -68,7 +75,7 @@ def gameplayText():
     print("When both players run out of cards, then three cards are dealt to each.\n")
     print("If you clear the board during the round [exculding the last card played of the last round], that is called a SCOPA, which will add a point to your score.\n")
     
-def scoringText():
+def printScoringText():
     print("\n-----------------SCORING-----------------")
     print("At the end of the game, all of the captured cards are evaluated.\n")
     print("Points can be gained for:")
@@ -80,56 +87,56 @@ def scoringText():
     print("---  [7]: 21pts. [6], 18pts. [1], 16pts. [5], 15pts. [4], 14pts. [3], 13pts. [2], 12 pts. [8/9/10], 10 pts.")
     print("\nKeep this in mind when capturing cards!")
 
-def helpText():
-    #displays rules 'screen'
+def runHelpMenu():
+    #displays rules & help 'screen'
     cmd = ""
     os.system('cls')
-    rulesText()
+    printRulesText()
     print("[Press ENTER to proceed with GAMEPLAY rules or type \"EXIT\" to quit.]")
-    cmd = getCommand(cmd);
+    cmd = getUserCommand(cmd);
     if (cmd == "exit"):
         return
     os.system('cls')
-    gameplayText()
+    printGameplayText()
     print("[Press ENTER to proceed with SCORING rules or type \"EXIT\" to quit.]")
-    cmd = getCommand(cmd);
+    cmd = getUserCommand(cmd);
     if (cmd == "exit"):
         return;
     while 1:
         os.system('cls')
-        scoringText()
-        cmd = getCommand("\nWould you like to review anything? [ yes | no ]")
+        printScoringText()
+        cmd = getUserCommand("\nWould you like to review anything? [ yes | no ]")
         if (cmd == "no" or cmd == "n"):
             return
         if (cmd == "yes" or cmd == "y"):
-            cmd = getCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
+            cmd = getUserCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
             os.system('cls')
             while 1:
                 if (cmd == "rules"):
-                    rulesText()
+                    printRulesText()
                 elif (cmd == "gameplay"):
-                    gameplayText()
+                    printGameplayText()
                 elif (cmd == "scoring"):
-                    scoringText()
+                    printScoringText()
                 elif (cmd == "exit"):
                     return
-                cmd = getCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
+                cmd = getUserCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
                 os.system('cls')
         else:
-            badInput()
+            printBadInput()
 
 def initializeDeck():
     #creates and shuffles a deck of cards, returns deck
     pile = []
     for i in range(1, 11):
-        pile.append(Card(i, " of Cups"))
-        pile.append(Card(i, " of Coins"))
-        pile.append(Card(i, " of Swords"))
-        pile.append(Card(i, " of Clubs"))
+        pile.append(Card(i, Suit.CUPS))
+        pile.append(Card(i, Suit.COINS))
+        pile.append(Card(i, Suit.SWORDS))
+        pile.append(Card(i, Suit.SWORDS))
     random.shuffle(pile)
     return pile
 
-def findPrimeVal(num):
+def findPrimeVal(num: int):
     #calculates the prime value of one number
     if num == 7:
         return 21
@@ -183,34 +190,34 @@ def scoreDeck(score, p_hand):
     while (len(p_hand) > 0):
         scoreCard(score, p_hand.pop)
 
-def badInput():
+def printBadInput():
     #response to invalid input
     print("Please enter a valid command.")
     time.sleep(.7)
 
-def lines():
+def printLines():
     #'animation' for dealing cards
     for i in range(0, 3):
         time.sleep(.175)
         print("/ ", end="", flush=True)
 
-def dealText():
+def printDealText():
     #complete text for dealing cards 'animation'
     os.system('cls')
     print("---------------------------------------\n")
-    lines()
+    printLines()
     print("Dealing cards ", end="")
-    lines()
+    printLines()
     time.sleep(.350)
     print("\n")
     os.system('cls')
     print("---------------------------------------\n")
 
-def computerText():
+def printComputerText():
     #'animation' for computer's turn
-    lines()
+    printLines()
     print("Computer's turn ", end="")
-    lines()
+    printLines()
 
 def buffer(text):
     #waits for \n to continue
@@ -315,7 +322,7 @@ def displayCards(p_hand, op_hand, table, turn1):
     else:
         print(str(len(op_hand)) + " cards.\n")
 
-def deckSize(deck):
+def printDeckSizeEstimate(deck):
     #takes in location int deck (int) and prints "visual" estimation of deck size
     if len(deck) <= 10:
         print("The deck has a few cards left.")
@@ -324,7 +331,6 @@ def deckSize(deck):
     else:
         print("The deck has many cards left.")
     time.sleep(.7)
-
 
 def checkPlayable(total: int, table: list[Card], matches: list[Card]):
     #recursively finds all combinations of table's cards that add to total
@@ -338,24 +344,24 @@ def checkPlayable(total: int, table: list[Card], matches: list[Card]):
                 matches.append(focus)
                 matches_size = len(matches)
 
-def validateChoice(place, hand):
-    #checks if user input (place) is valid
+def validateHandIndexChoice(place, hand):
+    #checks if user's selected index (location on table) is valid
     try:
         place = int(place)
     except ValueError:
-        badInput()
+        printBadInput()
         return False
     if place > 0 and place <= len(hand):
         return True
     else:
-        badInput()
+        printBadInput()
         return False
 
 def placeCard(p_hand: list[Card], table: list[Card]):
     #player inputs card from hand, card is added to table if no other moves
-    place = getCommand("Which card? Type the position in hand (i.e. 1, 2, 3).")
-    if validateChoice(place, p_hand):
-        #card can be played
+    place = getUserCommand("Which card? Type the position in hand (i.e. 1, 2, 3).")
+    if validateHandIndexChoice(place, p_hand):
+        #card/index can be played
         c = p_hand[int(place) - 1]
         pos = []
         checkPlayable(c.value, table, pos)
@@ -376,7 +382,7 @@ def processList(nums: list):
             return False
     return True
 
-def checkValidPlay(target: int, nums: list[int], table: list[Card], cards: list[Card]):
+def checkValidCapture(target: int, nums: list[int], table: list[Card], cards: list[Card]):
     #verifies that list adds up to chosen value
     total = 0
     for x in nums:
@@ -394,72 +400,99 @@ def checkValidPlay(target: int, nums: list[int], table: list[Card], cards: list[
     
 def captureCard(p_score: Score, p_hand: list[Card], table: list[Card]):
     #player inputs card from hand and card(s) from table they want to capture. cards are removed and scored.
+    # returns true on a successful/valid capture (returns false if a player selects an invalid set of cards, etc)
+
+    # cannot capture cards if there are no cards on the table
     if len(table) == 0:
         print("There are no cards to capture.")
         time.sleep(.35)
     else:
-        place = getCommand("Which card from your hand do you want to play? Type position in hand (i.e. 1, 2, 3).")
-        if validateChoice(place, p_hand):
+        place = getUserCommand("Which card from your hand do you want to play? Type position in hand (i.e. 1, 2, 3).")
+        if validateHandIndexChoice(place, p_hand):
             #card can be played
-            c = p_hand[int(place) - 1]
-            os.system("cls")
+            selectedCard = p_hand[int(place) - 1]
+
+            # display cards WITH INDEXES on the table for selection:
+            #   -1- [7 of Swords]
+            #   -2- [9 of Swords]
+            #   ...etc
+            os.system("cls") # clear the screen
             print("\n---------------------------------------")
-            print("Your card: " + str(c) + "\n")
+            print("Your card: " + str(selectedCard) + "\n")
             for index, x in enumerate(table):
                 print("-" + str(index + 1) + "- " + str(x))
-            cmd = getCommand("\nWhich cards on the table? Type position on table separated by a space (e.g. 3 1 5).")
-            nums = cmd.split()
-            inputCards = []
-            if processList(nums) and checkValidPlay(c.value, nums, table, inputCards):
-                for x in inputCards:
+            cmd = getUserCommand("\nWhich cards on the table? Type position on table separated by a space (e.g. 3 1 5).")
+            nums = cmd.split() # split between spaces
+            selectedCards = []
+            # make sure all inputs are integers, and the capture is valid (table cards sum to equal played card)
+            if processList(nums) and checkValidCapture(selectedCard.value, nums, table, selectedCards):
+                for x in selectedCards:
+                    # when a card is captured, it is removed from the table and added to the player's score & posession
                     table.remove(x)
                     scoreCard(p_score, x)
-                p_hand.remove(c)
-                scoreCard(p_score, c)
+                # when a card is played, it is removed from the player's hand and added to the player's score & posession
+                p_hand.remove(selectedCard)
+                scoreCard(p_score, selectedCard)
+                
+                # check for scopa
                 if (len(table) == 0):
                     os.system("cls")
                     print("\n\n----SCOPA!----")
+                    # record the scopa in the player's score
                     p_score.scopa += 1
                     time.sleep(.7)
                 return True
             else:
-                badInput()
+                printBadInput()
                 return False
 
-def action(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: list[Card], turn1, deck):
+def userAction(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: list[Card], turn1, deck):
     #the player's turn: displays options and carries out specified action
     while 1:
+        #print the cards to the screen
         displayCards(p_hand, op_hand, table, turn1)
+        #if a player has no cards left, they skip their turn and end their action
         if len(p_hand) == 0:
             print("You have no more cards.")
             time.sleep(.7)
             return
-        cmd = getCommand("What would you like to do? [ capture card | place card | sort cards | check deck | help ]")
+        #the player has cards in their hand, so ask what they would like to do
+        cmd = getUserCommand("What would you like to do? [ capture card | place card | sort cards | check deck | help ]")
+        # parse the input, run the appropriate command/menu
         if (cmd == "capture card"):
             if captureCard(p_score, p_hand, table):
+                # return because the action/turn is complete on a successful capture
                 return
         elif (cmd == "place card"):
             if placeCard(p_hand, table):
+                # return because the action/turn is complete on a successful placement
                 return
         elif (cmd == "sort cards" or cmd == "sort"):
             p_hand.sort(key=lambda x: x.value, reverse=True)
+            # sort cards, continue this loop because the action/turn isn't over
         elif (cmd == "check deck"):
-            deckSize(deck)
+            printDeckSizeEstimate(deck)
+            # print deck size, continue this loop because the action/turn isn't over
         elif (cmd == "help"):
-            helpText()
+            runHelpMenu()
+            # run help menu, continue this loop because the action/turn isn't over
         elif cmd == "quit" or cmd == "exit":
-            cmd = getCommand("Are you sure you would like to quit the game? [ yes | no ]")
+            cmd = getUserCommand("Are you sure you would like to quit the game? [ yes | no ]")
+            # quit the game immediately
             if cmd == "y" or cmd == "yes":
                 quit()
         else:
-            badInput()
+            printBadInput()
+            # couldn't parse the user's input, continue this action/turn
 
 def computerAction(p_score: Score, p_hand: list[Card], table: list[Card]):
     #code goes here
-    pass
+
+    if p_hand[0].suit == Suit.CLUBS:
+        pass
     
 def main():
-    two_player = menu()
+    two_player = printMenu()
     deck = []
     table = []
     p1_hand = []
@@ -485,19 +518,19 @@ def main():
                     #remaining cards go to p1
                     scoreDeck(p1_score, table)
                 state = 1
-            dealText()
+            printDealText()
             print("------The cards have been dealt.------\n")
         if turn1:
             print("\n----PLAYER 1----")
             playerBuffer()
-            action(p1_score, p1_hand, p2_hand, table, turn1, deck)
+            userAction(p1_score, p1_hand, p2_hand, table, turn1, deck)
         else:
             if two_player:
                 print("\n----PLAYER 2----")
                 playerBuffer()
-                action(p2_score, p2_hand, p1_hand, table, turn1, deck)
+                userAction(p2_score, p2_hand, p1_hand, table, turn1, deck)
             else:
-                computerText()
+                printComputerText()
                 computerAction(p2_score, p2_hand, table) #create this function
 
 

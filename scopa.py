@@ -183,9 +183,15 @@ def dealText():
     os.system('cls')
     print("---------------------------------------\n")
 
+def computerText():
+    #'animation' for computer's turn
+    lines()
+    print("Computer's turn ", end="")
+    lines()
+
 def buffer(text):
     #waits for \n to continue
-    print(text)
+    print(text) 
     cmd = 'a'
     while cmd !='':
         cmd = input()
@@ -346,7 +352,7 @@ def processList(nums: list):
             return False
     return True
 
-def checkValidPlay(target: int, nums: list[int], table: list[Card], cards: list):
+def checkValidPlay(target: int, nums: list[int], table: list[Card], cards: list[Card]):
     #verifies that list adds up to chosen value
     total = 0
     for x in nums:
@@ -486,12 +492,8 @@ def main():
                 playerBuffer()
                 action(p2_score, p2_hand, p1_hand, table, turn1, deck)
             else:
-                #new code goes here:
-                lines()
-                print("Computer's turn ", end="")
-                lines()
-                computerAction(p2_score, p2_hand, table)
-
+                computerText()
+                computerAction(p2_score, p2_hand, table) #create this function
 
 
         turn1 = not turn1

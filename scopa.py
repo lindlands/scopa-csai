@@ -156,6 +156,8 @@ def dealCards(deck, p1_hand, p2_hand):
             break
         p1_hand.append(deck.pop())
         p2_hand.append(deck.pop())
+    dealText()
+    print("------The cards have been dealt.------\n")
 
 def scoreCard(score, card):
     #compares given card to score's pertaining value and updates score if needed
@@ -485,8 +487,6 @@ def main():
                     #remaining cards go to p1
                     scoreDeck(p1_score, table)
                 state = 1
-            dealText()
-            print("------The cards have been dealt.------\n")
         if turn1:
             print("\n----PLAYER 1----")
             playerBuffer()
@@ -499,14 +499,12 @@ def main():
             else:
                 computerText()
                 computerAction(p2_score, p2_hand, table) #create this function
-
-
         turn1 = not turn1
         os.system("cls")
         print("---------------------------------------\n")
     
     #end of game
-    scoring()
+    scoring(p1_score, p2_score)
     time.sleep(.35)
     buffer("\nPress ENTER to exit.")
     

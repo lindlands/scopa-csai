@@ -93,15 +93,15 @@ def runHelpMenu():
     os.system('cls')
     printRulesText()
     print("[Press ENTER to proceed with GAMEPLAY rules or type \"EXIT\" to quit.]")
-    cmd = getUserCommand(cmd);
+    cmd = getUserCommand(cmd)
     if (cmd == "exit"):
         return
     os.system('cls')
     printGameplayText()
     print("[Press ENTER to proceed with SCORING rules or type \"EXIT\" to quit.]")
-    cmd = getUserCommand(cmd);
+    cmd = getUserCommand(cmd)
     if (cmd == "exit"):
-        return;
+        return
     while 1:
         os.system('cls')
         printScoringText()
@@ -302,7 +302,7 @@ def printCards(hand):
                 print(", ", end="")
             if (place % 3 == 0 and place != 0 and place != len(hand) - 1):
                 #formatting
-                print("\n                            ", end="");
+                print("\n                            ", end="")
             place += 1
         print("")
 
@@ -359,7 +359,7 @@ def validateHandIndexChoice(place, hand):
         printBadInput()
         return False
 
-def placeCard(p_hand: list[Card], table: list[Card]):
+def playerPlaceCard(p_hand: list[Card], table: list[Card]):
     #player inputs card from hand, card is added to table if no other moves
     place = getUserCommand("Which card? Type the position in hand (i.e. 1, 2, 3).")
     if validateHandIndexChoice(place, p_hand):
@@ -400,7 +400,7 @@ def checkValidCapture(target: int, nums: list[int], table: list[Card], cards: li
         return True
     return False
     
-def captureCard(p_score: Score, p_hand: list[Card], table: list[Card]):
+def playerCaptureCard(p_score: Score, p_hand: list[Card], table: list[Card]):
     #player inputs card from hand and card(s) from table they want to capture. cards are removed and scored.
     # returns true on a successful/valid capture (returns false if a player selects an invalid set of cards, etc)
 
@@ -462,11 +462,11 @@ def userAction(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: l
         cmd = getUserCommand("What would you like to do? [ capture card | place card | sort cards | check deck | help ]")
         # parse the input, run the appropriate command/menu
         if (cmd == "capture card"):
-            if captureCard(p_score, p_hand, table):
+            if playerCaptureCard(p_score, p_hand, table):
                 # return because the action/turn is complete on a successful capture
                 return
         elif (cmd == "place card"):
-            if placeCard(p_hand, table):
+            if playerPlaceCard(p_hand, table):
                 # return because the action/turn is complete on a successful placement
                 return
         elif (cmd == "sort cards" or cmd == "sort"):
@@ -484,14 +484,24 @@ def userAction(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: l
             if cmd == "y" or cmd == "yes":
                 quit()
         else:
-            printBadInput()
             # couldn't parse the user's input, continue this action/turn
+            printBadInput()
 
-def computerAction(p_score: Score, p_hand: list[Card], table: list[Card]):
+def computerAction(c_score: Score, c_hand: list[Card], table: list[Card]):
     #code goes here
 
-    if p_hand[0].suit == Suit.CLUBS:
-        pass
+    # demo code
+    # check that there are cards in hand and table
+    if len(c_hand) > 0 and len(table) > 0:
+        firstHandCard = c_hand[0]
+        firstTableCard = table[0]
+        # take the first card in the hand and the first card on the table if:
+        # 1. they match in value
+        # 2. the table card is a Coins card
+        if firstTableCard == Suit.COINS and firstHandCard.value == firstTableCard.value:
+            table.remove(firstHandCard)
+            scoreCard(c_score, firstHandCard)
+            
     
 def main():
     two_player = printMenu()

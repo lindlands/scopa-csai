@@ -62,24 +62,24 @@ def helpText():
     cmd = ""
     os.system('cls')
     rulesText()
-    print("[Press ENTER to proceed with GAMEPLAY rules or type \"EXIT\" to start playing.]")
+    print("[Press ENTER to proceed with GAMEPLAY rules or type \"EXIT\" to quit.]")
     cmd = getCommand(cmd);
     if (cmd == "exit"):
         return
     os.system('cls')
     gameplayText()
-    print("[Press ENTER to proceed with SCORING rules or type \"EXIT\" to start playing.]")
+    print("[Press ENTER to proceed with SCORING rules or type \"EXIT\" to quit.]")
     cmd = getCommand(cmd);
     if (cmd == "exit"):
         return;
     while 1:
         os.system('cls')
         scoringText()
-        cmd = getCommand("\nAre you ready to play? [yes/no]")
-        if (cmd == "yes" or cmd == "y"):
-            return
+        cmd = getCommand("\nWould you like to review anything? [ yes | no ]")
         if (cmd == "no" or cmd == "n"):
-            cmd = getCommand("What would you like to review? [rules/gameplay/scoring/exit]")
+            return
+        if (cmd == "yes" or cmd == "y"):
+            cmd = getCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
             os.system('cls')
             while 1:
                 if (cmd == "rules"):
@@ -90,8 +90,10 @@ def helpText():
                     scoringText()
                 elif (cmd == "exit"):
                     return
-                cmd = getCommand("What would you like to review? [rules/gameplay/scoring/exit]")
+                cmd = getCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
                 os.system('cls')
+        else:
+            badInput()
 
 def initializeDeck():
     #creates and shuffles a deck of cards, returns deck
@@ -356,7 +358,6 @@ def action(p_score, p_hand, op_hand, table, turn1, deck):
 
 def printScore(p_score):
     #prints the player's score
-
     print("Number of cards captured: " + str(p_score.numCards))
     time.sleep(.35)
     print("Number of Coins captured: " + str(p_score.numCoins))
@@ -409,25 +410,25 @@ def scoring(p1_score, p2_score):
         print("PLAYER 2 wins!")
     else:
         print("PLAYER 1 and PLAYER 2 are tied!")
-    
+
+def menu():
+    while 1:
+        print("\n-----------------SCOPA-----------------")
+        print("Welcome!")
+        cmd = getCommand("What would you like to do? [ start | rules | quit ]")
+        if cmd == "start":
+            return
+        elif cmd == "rules":
+            helpText()
+        elif cmd == "quit":
+            quit()
+        else:
+            badInput()
+        os.system("cls")
+    print("\n---------------------------------------\n")
     
 def main():
-    print("\n-----------------SCOPA-----------------")
-    print("Welcome!")
-    while 1:
-        cmd = getCommand("Do you know how to play scopa?")
-        if (cmd == "yes"):
-            break
-        if (cmd == "no"):
-            helpText()
-            print("Okay, we'll get right into it. Good luck! \n")
-            break
-        else:
-            print("Please enter either yes or no.")
-            os.system('cls')
-        os.system('cls')
-    print("\n---------------------------------------\n")
-
+    menu()
     deck = []
     table = []
     p1_hand = []

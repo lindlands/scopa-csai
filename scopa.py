@@ -276,7 +276,7 @@ def scoring(p1_score, p2_score):
     print("PLAYER 1: ")
     printScore(p1_score)
     print("PLAYER 2: ")
-    printScore(p1_score)
+    printScore(p2_score)
     p1 = 0
     p2 = 0
     addAllScores(p1_score, p2_score, p1, p2)
@@ -516,8 +516,7 @@ def main():
     for i in range(0, 4):
         #deals cards to the table
         table.append(deck.pop())
-    state = 0
-    while (state == 0):
+    while (1):
         #main part of the game
         if len(p1_hand) == 0 and len(p2_hand) == 0:
             dealCards(deck, p1_hand, p2_hand)
@@ -529,8 +528,7 @@ def main():
                 else:
                     #remaining cards go to p1
                     scoreDeck(p1_score, table)
-                state = 1
-
+                break
         if turn1:
             print("\n----PLAYER 1----")
             playerBuffer()
@@ -548,6 +546,8 @@ def main():
         print("---------------------------------------\n")
     
     #end of game
+    os.system("cls")
+    print("---------------------------------------\n")
     scoring(p1_score, p2_score)
     time.sleep(.35)
     buffer("\nPress ENTER to exit.")

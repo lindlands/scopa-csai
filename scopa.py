@@ -93,31 +93,31 @@ def runHelpMenu():
     printRulesText()
     print("[Press ENTER to proceed with GAMEPLAY rules or type \"EXIT\" to quit.]")
     cmd = getUserCommand(cmd)
-    if (cmd == "exit"):
+    if cmd == "exit":
         return
     os.system('cls')
     printGameplayText()
     print("[Press ENTER to proceed with SCORING rules or type \"EXIT\" to quit.]")
     cmd = getUserCommand(cmd)
-    if (cmd == "exit"):
+    if cmd == "exit":
         return
     while 1:
         os.system('cls')
         printScoringText()
         cmd = getUserCommand("\nWould you like to review anything? [ yes | no ]")
-        if (cmd == "no" or cmd == "n"):
+        if cmd == "no" or cmd == "n":
             return
-        if (cmd == "yes" or cmd == "y"):
+        if cmd == "yes" or cmd == "y":
             cmd = getUserCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
             os.system('cls')
             while 1:
-                if (cmd == "rules"):
+                if cmd == "rules":
                     printRulesText()
-                elif (cmd == "gameplay"):
+                elif cmd == "gameplay":
                     printGameplayText()
-                elif (cmd == "scoring"):
+                elif cmd == "scoring":
                     printScoringText()
-                elif (cmd == "exit"):
+                elif cmd == "exit":
                     return
                 cmd = getUserCommand("What would you like to review? [ rules | gameplay | scoring | exit ]")
                 os.system('cls')
@@ -170,19 +170,19 @@ def scoreCard(score, card):
     prime = 0
     score.numCards += 1
     prime = findPrimeVal(card.value)
-    if (card.suit == Suit.CUPS):
+    if card.suit == Suit.CUPS:
         if score.cup_prime < prime:
             score.cup_prime = prime
-    elif (card.suit == Suit.COINS):
+    elif card.suit == Suit.COINS:
         if card.value == 7:
             #the seven of coins
             score.sevenCoins += 1
         if score.coin_prime < prime:
             score.coin_prime = prime
-    elif (card.suit == Suit.SWORDS):
+    elif card.suit == Suit.SWORDS:
         if score.sword_prime < prime:
             score.sword_prime = prime
-    elif (card.suit == Suit.CLUBS):
+    elif card.suit == Suit.CLUBS:
         if score.club_prime < prime:
             score.club_prime = prime
 
@@ -290,7 +290,7 @@ def scoring(p1_score, p2_score):
 def printCards(hand):
     #prints all cards in given list
     place = 0
-    if (len(hand) == 0):
+    if len(hand) == 0:
         print("There are no cards.")
     else:
         for x in hand:
@@ -298,7 +298,7 @@ def printCards(hand):
             if place != len(hand) - 1:
                 #don't print comma on last card
                 print(", ", end="")
-            if (place % 3 == 0 and place != 0 and place != len(hand) - 1):
+            if place % 3 == 0 and place != 0 and place != len(hand) - 1:
                 #formatting
                 print("\n                            ", end="")
             place += 1
@@ -308,7 +308,7 @@ def displayCards(p_hand, op_hand, table, turn1):
     #prints cards of player and table, and the number of cards of the opponent.
     os.system("cls")
     print("\n---------------------------------------")
-    if (turn1):
+    if turn1:
         print("----PLAYER 1----")
     else:
         print("----PLAYER 2----")
@@ -340,7 +340,7 @@ def checkPlayable(total: int, table: list[Card], matches: list[Card]):
             matches.append(focus)
         elif total - focus.value > 0:
             checkPlayable(total - focus.value, table[table.index(focus) + 1:], matches)
-            if (len(matches) > matches_size):
+            if len(matches) > matches_size:
                 matches.append(focus)
                 matches_size = len(matches)
 
@@ -459,23 +459,23 @@ def userAction(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: l
         #the player has cards in their hand, so ask what they would like to do
         cmd = getUserCommand("What would you like to do? [ capture card | place card | sort cards | check deck | help ]")
         # parse the input, run the appropriate command/menu
-        if (cmd == "capture card"):
+        if cmd == "capture card":
             if playerCaptureCard(p_score, p_hand, table):
-                # return because the action/turn is complete on a successful capture
+                # return as the turn is complete
                 return
-        elif (cmd == "place card"):
+        elif cmd == "place card":
             if playerPlaceCard(p_hand, table):
-                # return because the action/turn is complete on a successful placement
+                # return as the turn is complete
                 return
-        elif (cmd == "sort cards" or cmd == "sort"):
+        elif cmd == "sort cards" or cmd == "sort":
             p_hand.sort(key=lambda x: x.value, reverse=True)
-            # sort cards, continue this loop because the action/turn isn't over
-        elif (cmd == "check deck"):
+            # continue this loop
+        elif cmd == "check deck":
             printDeckSizeEstimate(deck)
-            # print deck size, continue this loop because the action/turn isn't over
-        elif (cmd == "help"):
+            # continue this loop
+        elif cmd == "help":
             runHelpMenu()
-            # run help menu, continue this loop because the action/turn isn't over
+            # continue this loop
         elif cmd == "quit" or cmd == "exit":
             cmd = getUserCommand("Are you sure you would like to quit the game? [ yes | no ]")
             # quit the game immediately

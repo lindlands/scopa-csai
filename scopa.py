@@ -180,7 +180,7 @@ def scoreCard(score, card):
 
 def scoreDeck(score, p_hand):
     #scores entire hand of cards
-    while (len(p_hand > 0)):
+    while (len(p_hand) > 0):
         scoreCard(score, p_hand.pop)
 
 def badInput():
@@ -447,6 +447,10 @@ def action(p_score: Score, p_hand: list[Card], op_hand: list[Card], table: list[
             deckSize(deck)
         elif (cmd == "help"):
             helpText()
+        elif cmd == "quit" or cmd == "exit":
+            cmd = getCommand("Are you sure you would like to quit the game? [ yes | no ]")
+            if cmd == "y" or cmd == "yes":
+                quit()
         else:
             badInput()
 

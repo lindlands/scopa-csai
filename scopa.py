@@ -130,7 +130,7 @@ def initializeDeck():
     for i in range(1, 11):
         pile.append(Card(i, Suit.CUPS))
         pile.append(Card(i, Suit.COINS))
-        pile.append(Card(i, Suit.SWORDS))
+        pile.append(Card(i, Suit.CLUBS))
         pile.append(Card(i, Suit.SWORDS))
     random.shuffle(pile)
     return pile

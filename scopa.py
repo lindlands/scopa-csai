@@ -32,15 +32,16 @@ def getCommand(print_text):
 def rulesText():
     print("\n------------------RULES------------------")
     print("Scopa is an Italian game, so it is played with a 40-card deck with cards valuing from 1 to 10. The suits are Cups, Coins, Swords, and Clubs.")
-    print("The goal of the game is to collect cards, so by the end of the game, scoring of your cards will grant you the most points.\n")
+    print("The goal of the game is to capture cards, so by the end of the game, scoring of your cards will grant you the most points.\n")
 
 def gameplayText():
     print("\n-----------------GAMEPLAY-----------------")
-    print("Each player will receive 3 cards, and there are 4 face-up cards played on the table.")
-    print("You and the opponent will take turns either placing a card on the table or capturing cards.\n")
+    print("Each player will be dealt 3 cards, and 4 face-up cards will be placed on the table.")
+    print("You and the opponent will take turns playing one card each--either placing a card on the table or capturing cards.\n")
     print("Placing a card on the table removes it from your hand and adds it to the table. A card that can capture a card on the table cannot be played.\n")
     print("Capturing cards involves playing a card from your hand.")
-    print("You can capture cards from the table if they add up to the value of a card in your hand. This can be either with a single matching card, or a combination of several. After the card from your hand is played, both your card and the captured cards will be removed.\n")
+    print("You can capture cards from the table if they add up to the value of a card in your hand.")
+    print("This can be either with a single matching card, or a combination of several. After the card from your hand is played, both your card and the captured cards will be removed.\n")
     print("When both players run out of cards, then three cards are dealt to each.\n")
     print("If you clear the board during the round [exculding the last card played of the last round], that is called a SCOPA, which will add a point to your score.\n")
     
@@ -50,7 +51,7 @@ def scoringText():
     print("Points can be gained for:")
     print("- Capturing the Seven of Coins")
     print("- Capturing the greatest number of cards")
-    print("- Capturing the greatest number of Coins")
+    print("- Capturing the greatest number of Coin suited cards")
     print("- Having the highest \"Prime\".")
     print("---  A Prime is the total of adding the \"best\" card in each suit. The ranking is as follows:")
     print("---  [7]: 21pts. [6], 18pts. [1], 16pts. [5], 15pts. [4], 14pts. [3], 13pts. [2], 12 pts. [8/9/10], 10 pts.")

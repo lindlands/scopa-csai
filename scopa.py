@@ -181,7 +181,7 @@ def scoreCard(score, card):
 def scoreDeck(score, p_hand):
     #scores entire hand of cards
     while (len(p_hand) > 0):
-        scoreCard(score, p_hand.pop)
+        scoreCard(score, p_hand.pop())
 
 def badInput():
     #response to invalid input
